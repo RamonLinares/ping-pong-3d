@@ -111,7 +111,7 @@ class PingPongGame {
         const deltaY = (touch.clientY - this.touchStartY) / window.innerHeight * PADDLE_MOVE_SPEED * 50;
     
         this.paddle.position.x += deltaX;
-        this.paddle.position.z -= deltaY; // Invert deltaY to move in the correct direction
+        this.paddle.position.z += deltaY; // Corrected direction for moving up and down
     
         // Enforce paddle boundaries
         this.paddle.position.x = Math.max(Math.min(this.paddle.position.x, WALL_BOUNDARY), -WALL_BOUNDARY);
@@ -120,6 +120,7 @@ class PingPongGame {
         this.touchStartX = touch.clientX;
         this.touchStartY = touch.clientY;
     }
+    
     
     onTouchEnd(event) {
         this.touchStartX = null;
