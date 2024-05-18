@@ -32,6 +32,11 @@ class PingPongGame {
         this.obstacles = [];
         this.isAnimating = true; // Start the animation initially
         this.isPaused = false; // Flag to control pause state
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+        this.touchEndX = 0;
+        this.touchEndY = 0;
+
         this.init();
         window.addEventListener('resize', () => this.onWindowResize());
         window.addEventListener('wheel', (event) => this.onMouseWheel(event));
@@ -45,6 +50,12 @@ class PingPongGame {
         document.addEventListener('touchstart', (event) => this.onTouchStart(event));
         document.addEventListener('touchmove', (event) => this.onTouchMove(event));
         document.addEventListener('touchend', (event) => this.onTouchEnd(event));
+
+        document.addEventListener('touchstart', (event) => this.onTouchStart(event));
+        document.addEventListener('touchmove', (event) => this.onTouchMove(event));
+        document.addEventListener('touchend', (event) => this.onTouchEnd(event));
+
+
         this.animate();
     }
 
@@ -118,6 +129,10 @@ class PingPongGame {
     onTouchEnd(event) {
         this.touchStartX = null;
         this.touchStartY = null;
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+        this.touchEndX = 0;
+        this.touchEndY = 0;
     }
 
     init() {
@@ -375,7 +390,7 @@ class PingPongGame {
     }
 
     onMouseMove(event) {
-        if (this.isDragging) {
+        if (false && this.isDragging) {
             const deltaMove = {
                 x: event.clientX - this.previousMousePosition.x,
                 y: event.clientY - this.previousMousePosition.y
@@ -393,6 +408,24 @@ class PingPongGame {
                 y: event.clientY
             };
         }
+        event.preventDefault(); // Prevent default behavior like scrolling
+        this.touchEndX = event.touches[0].clientX;
+        this.touchEndY = event.touches[0].clientY;
+
+        const deltaX = this.touchEndX - this.touchStartX;
+        const deltaY = this.touchEndY - this.touchStartY;
+
+        // Adjust paddle movement speed
+        this.paddle.position.x += deltaX * 0.01;
+        this.paddle.position.z -= deltaY * 0.01;
+
+        // Enforce paddle boundaries
+        this.paddle.position.x = Math.max(Math.min(this.paddle.position.x, WALL_BOUNDARY), -WALL_BOUNDARY);
+        this.paddle.position.z = Math.max(Math.min(this.paddle.position.z, PADDLE_BOUNDARY_Z_MAX), PADDLE_BOUNDARY_Z_MIN);
+
+        // Update start position for the next move
+        this.touchStartX = this.touchEndX;
+        this.touchStartY = this.touchEndY;
     }
 
     onMouseUp(event) {
