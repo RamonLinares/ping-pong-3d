@@ -1,4 +1,4 @@
-const { Scene, PerspectiveCamera, WebGLRenderer, AmbientLight, PointLight, SpotLight, Vector3, Clock, BufferGeometry, LineBasicMaterial, Line, ShadowMaterial, AudioListener, Audio, AudioLoader } = THREE;
+const { Scene, PerspectiveCamera, WebGLRenderer, AmbientLight, PointLight, SpotLight, Vector3, Clock, BufferGeometry, LineBasicMaterial, Line, ShadowMaterial, AudioListener, Audio, AudioLoader, PlaneGeometry, MeshStandardMaterial, Mesh, BoxGeometry, SphereGeometry } = THREE;
 
 const BALL_INITIAL_VELOCITY = new Vector3(1, 6.0, 3.0); // Initial velocity towards the player with an angle
 const GRAVITY = new Vector3(0, -9.8, 0); // Realistic gravity
@@ -50,12 +50,7 @@ class PingPongGame {
         document.addEventListener('touchstart', (event) => this.onTouchStart(event));
         document.addEventListener('touchmove', (event) => this.onTouchMove(event));
         document.addEventListener('touchend', (event) => this.onTouchEnd(event));
-
-        document.addEventListener('touchstart', (event) => this.onTouchStart(event));
-        document.addEventListener('touchmove', (event) => this.onTouchMove(event));
-        document.addEventListener('touchend', (event) => this.onTouchEnd(event));
-
-
+        
         this.animate();
     }
 
@@ -109,11 +104,11 @@ class PingPongGame {
     }
 
     onTouchMove(event) {
-        this.touchEndX = event.touches[0].clientX;
-        this.touchEndY = event.touches[0].clientY;
+        event.preventDefault(); // Prevent default behavior like scrolling
+        const touch = event.touches[0];
 
-        const deltaX = (this.touchEndX - this.touchStartX) / window.innerWidth * PADDLE_MOVE_SPEED * 10;
-        const deltaY = (this.touchEndY - this.touchStartY) / window.innerHeight * PADDLE_MOVE_SPEED * 10;
+        const deltaX = (touch.clientX - this.touchStartX) / window.innerWidth * PADDLE_MOVE_SPEED * 10;
+        const deltaY = (touch.clientY - this.touchStartY) / window.innerHeight * PADDLE_MOVE_SPEED * 10;
 
         this.paddle.position.x += deltaX;
         this.paddle.position.z -= deltaY; // Invert deltaY to move in the correct direction
@@ -122,17 +117,13 @@ class PingPongGame {
         this.paddle.position.x = Math.max(Math.min(this.paddle.position.x, WALL_BOUNDARY), -WALL_BOUNDARY);
         this.paddle.position.z = Math.max(Math.min(this.paddle.position.z, PADDLE_BOUNDARY_Z_MAX), PADDLE_BOUNDARY_Z_MIN);
 
-        this.touchStartX = this.touchEndX;
-        this.touchStartY = this.touchEndY;
+        this.touchStartX = touch.clientX;
+        this.touchStartY = touch.clientY;
     }
 
     onTouchEnd(event) {
         this.touchStartX = null;
         this.touchStartY = null;
-        this.touchStartX = 0;
-        this.touchStartY = 0;
-        this.touchEndX = 0;
-        this.touchEndY = 0;
     }
 
     init() {
@@ -390,7 +381,7 @@ class PingPongGame {
     }
 
     onMouseMove(event) {
-        if (false && this.isDragging) {
+        if (this.isDragging) {
             const deltaMove = {
                 x: event.clientX - this.previousMousePosition.x,
                 y: event.clientY - this.previousMousePosition.y
@@ -408,24 +399,6 @@ class PingPongGame {
                 y: event.clientY
             };
         }
-        event.preventDefault(); // Prevent default behavior like scrolling
-        this.touchEndX = event.touches[0].clientX;
-        this.touchEndY = event.touches[0].clientY;
-
-        const deltaX = this.touchEndX - this.touchStartX;
-        const deltaY = this.touchEndY - this.touchStartY;
-
-        // Adjust paddle movement speed
-        this.paddle.position.x += deltaX * 0.01;
-        this.paddle.position.z -= deltaY * 0.01;
-
-        // Enforce paddle boundaries
-        this.paddle.position.x = Math.max(Math.min(this.paddle.position.x, WALL_BOUNDARY), -WALL_BOUNDARY);
-        this.paddle.position.z = Math.max(Math.min(this.paddle.position.z, PADDLE_BOUNDARY_Z_MAX), PADDLE_BOUNDARY_Z_MIN);
-
-        // Update start position for the next move
-        this.touchStartX = this.touchEndX;
-        this.touchStartY = this.touchEndY;
     }
 
     onMouseUp(event) {
