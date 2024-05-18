@@ -291,7 +291,7 @@ class PingPongGame {
     }
 
     initTable() {
-        const tableTexture = new THREE.TextureLoader().load('../img/pingpongtable1.webp'); // Load new table texture
+        const tableTexture = new THREE.TextureLoader().load('img/pingpongtable1.webp'); // Load new table texture
         const tableGeometry = new PlaneGeometry(5, 10);
         const tableMaterial = new MeshStandardMaterial({ map: tableTexture });
         this.table = new Mesh(tableGeometry, tableMaterial);
