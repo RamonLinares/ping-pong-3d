@@ -1,4 +1,4 @@
-const { SphereGeometry, MeshStandardMaterial, Mesh, BoxGeometry, CylinderGeometry, PlaneGeometry, TextGeometry, FontLoader, MeshBasicMaterial } = THREE;
+const { CylinderGeometry, TextGeometry, FontLoader, MeshBasicMaterial } = THREE;
 
 class PowerUp {
     constructor(type, position, game) {
