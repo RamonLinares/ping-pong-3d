@@ -106,21 +106,21 @@ class PingPongGame {
     onTouchMove(event) {
         event.preventDefault(); // Prevent default behavior like scrolling
         const touch = event.touches[0];
-
-        const deltaX = (touch.clientX - this.touchStartX) / window.innerWidth * PADDLE_MOVE_SPEED * 10;
-        const deltaY = (touch.clientY - this.touchStartY) / window.innerHeight * PADDLE_MOVE_SPEED * 10;
-
+    
+        const deltaX = (touch.clientX - this.touchStartX) / window.innerWidth * PADDLE_MOVE_SPEED * 50;
+        const deltaY = (touch.clientY - this.touchStartY) / window.innerHeight * PADDLE_MOVE_SPEED * 50;
+    
         this.paddle.position.x += deltaX;
         this.paddle.position.z -= deltaY; // Invert deltaY to move in the correct direction
-
+    
         // Enforce paddle boundaries
         this.paddle.position.x = Math.max(Math.min(this.paddle.position.x, WALL_BOUNDARY), -WALL_BOUNDARY);
         this.paddle.position.z = Math.max(Math.min(this.paddle.position.z, PADDLE_BOUNDARY_Z_MAX), PADDLE_BOUNDARY_Z_MIN);
-
+    
         this.touchStartX = touch.clientX;
         this.touchStartY = touch.clientY;
     }
-
+    
     onTouchEnd(event) {
         this.touchStartX = null;
         this.touchStartY = null;
