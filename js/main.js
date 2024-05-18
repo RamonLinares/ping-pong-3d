@@ -309,7 +309,7 @@ class PingPongGame {
     }
 
     initNet() {
-        const netTexture = new THREE.TextureLoader().load('/img/net.webp'); // Load the new net texture
+        const netTexture = new THREE.TextureLoader().load('img/net.webp'); // Load the new net texture
         const netMaterial = new MeshStandardMaterial({ map: netTexture, transparent: true });
         const netGeometry = new PlaneGeometry(5, NET_HEIGHT); // Adjust net height
         this.net = new Mesh(netGeometry, netMaterial);
@@ -345,7 +345,7 @@ class PingPongGame {
     }
 
     initEnvironment() {
-        const bgTexture = new THREE.TextureLoader().load('/img/arena.webp'); // Load stadium background texture
+        const bgTexture = new THREE.TextureLoader().load('img/arena.webp'); // Load stadium background texture
         const bgMaterial = new MeshStandardMaterial({ map: bgTexture, side: THREE.BackSide });
         const bgGeometry = new SphereGeometry(50, 32, 32);
         const background = new Mesh(bgGeometry, bgMaterial);
@@ -756,7 +756,7 @@ class PingPongGame {
 
         const sound = new Audio(listener);
         const audioLoader = new AudioLoader();
-        audioLoader.load('/sounds/hit.wav', function(buffer) {
+        audioLoader.load('sounds/hit.wav', function(buffer) {
             sound.setBuffer(buffer);
             sound.setLoop(false);
             sound.setVolume(0.5);
