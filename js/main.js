@@ -421,10 +421,10 @@ class PingPongGame {
             this.paddle.position.x += PADDLE_MOVE_SPEED;
         }
         if (this.keys['ArrowUp']) {
-            this.paddle.position.z -= PADDLE_MOVE_SPEED;
+            this.paddle.position.z -= PADDLE_MOVE_SPEED * 1.2;
         }
         if (this.keys['ArrowDown']) {
-            this.paddle.position.z += PADDLE_MOVE_SPEED;
+            this.paddle.position.z += PADDLE_MOVE_SPEED * 1.2;
         }
 
         // Enforce paddle boundaries
